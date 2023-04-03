@@ -3,4 +3,4 @@ project(iteration_method)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(main Source.cpp temp.txt)
+add_executable(main "main.cpp")
