@@ -30,6 +30,7 @@ void printMatrix(const vector<vector<int>>& matr) {
 bool findSedlDot(const vector<vector<int>>& matr) {
 	vector<int> min;
 	vector<int> max;
+
 	//ищем минмальный элемент по строкам
 	for (const auto & i : matr){
 		auto min_rows = min_element(i.cbegin(), i.cend());
@@ -53,11 +54,22 @@ bool findSedlDot(const vector<vector<int>>& matr) {
 
 void iteration_method(vector<vector<int>> matr) {
 	int iter = 8;//количество итераций алгоритма в будущем будет ручной ввод
+
+    cout << "Введите количество итераций алгоритма: ";
+    cin >> iter;
 	
-	//строка массива, с которой начинаем алгоритм (в будущем тоже будет ручной ввод). 
+	//строка массива, с которой начинаем алгоритм
 	//должна быть небольше длины строки исходной матрицы
-	int i = 2;//типо 3, но не 3))))
-	vector<vector<int>> B = {};
+	int i = 3;
+
+    cout << endl << "Введите строку массива, с которой начнётся алгоритм:";
+    do {
+        cin >> i;
+    } while (i >= matr.size());
+
+    i--;//уменьшаем на единицу, потому что нумерация идёт с нуля
+
+    vector<vector<int>> B = {};
 	vector<vector<int>> A = {};
 
 	vector<double> min = {};
@@ -65,8 +77,6 @@ void iteration_method(vector<vector<int>> matr) {
 
 	map<int, int> Sa = {};
 	map<int, int> Sb = {};
-
-
 
 	B.resize(iter);
 	for (auto& cur_vec : B)
@@ -152,15 +162,49 @@ void iteration_method(vector<vector<int>> matr) {
 
 	auto min_delta = *min_element(k.cbegin(), k.cend());
 	double gamma = (min_max + max_min) / 2;
+
+
+    cout << "\nРешение игры\n";
+    cout << "Матрица B\n";
+    printMatrix(B);
+    cout << "Матрица A\n";
+    printMatrix(A);
+    cout << "Гамма: " << gamma << endl;
+    cout << "Дельта k: " << min_delta << endl;
+    cout << "Стратегии A:\n";
+    for (const auto& strateg: Sa)
+        cout << "A" << strateg.first << "\t";
+    cout << endl;
+    for (const auto& strateg: Sa)
+        cout << strateg.second << "/8" << "\t";
+    cout << endl;
+
+    cout << "Стратегии B:\n";
+    for (const auto& strateg: Sb)
+        cout << "B" << strateg.first << "\t";
+    cout << endl;
+
+    for (const auto& strateg: Sb)
+        cout << strateg.second << "/8" << "\t";
+    cout << endl;
+
+
 }
 
 
 int main() {
-
+    setlocale(LC_ALL, "ru_RU.UTF-8");
 	vector<vector<int>> matrix = {};
 
-	int M = 9;
-	int N = 9;
+	int M = 9;//строки
+	int N = 9;//столбцы
+
+    cout << "Введите количество строк:";
+    cin >> M;
+
+    cout << endl << "Введите количество столбцов матрицы:";
+    cin >> N;
+    cout << endl;
 
 	matrix.resize(M);
 	for (auto& cur_vec : matrix)
@@ -171,9 +215,17 @@ int main() {
 
 	cout << findSedlDot(matrix) << endl;
 
+    if (findSedlDot(matrix)){
+        cout << "Матрица имеет седловую точку!\n";
+        return -1;
+    }
+
+    cout << "Матрица не имеет седловой точки\n";
+
+
+    cout << "Решаем матрицу итеративным методом\n";
     iteration_method(matrix);
 
-	
 	return 0;
 }
 
