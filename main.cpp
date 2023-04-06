@@ -7,6 +7,8 @@
 
 using namespace std;
 
+//для вывода русского языка в консоли clion нужнно поставить кодировку IBM866
+
 void readMatrix(vector<vector<int>>& matr, const string& filename) {
 	ifstream fin(filename + ".txt");
 
@@ -49,6 +51,15 @@ bool findSedlDot(const vector<vector<int>>& matr) {
 
 	//здесь мы сравниваем максимальный среди минимальных и минимальный среди максимальных
 	return *min_element(max.cbegin(), max.cend()) == *max_element(min.cbegin(), min.cend());
+}
+
+void printMap(const map<int, int>& S){
+    for (const auto& strateg: S)
+        cout << "A" << strateg.first << "\t";
+    cout << endl;
+    for (const auto& strateg: S)
+        cout << strateg.second << "/8" << "\t";
+    cout << endl;
 }
 
 
@@ -172,22 +183,9 @@ void iteration_method(vector<vector<int>> matr) {
     cout << "Гамма: " << gamma << endl;
     cout << "Дельта k: " << min_delta << endl;
     cout << "Стратегии A:\n";
-    for (const auto& strateg: Sa)
-        cout << "A" << strateg.first << "\t";
-    cout << endl;
-    for (const auto& strateg: Sa)
-        cout << strateg.second << "/8" << "\t";
-    cout << endl;
-
+    printMap(Sa);
     cout << "Стратегии B:\n";
-    for (const auto& strateg: Sb)
-        cout << "B" << strateg.first << "\t";
-    cout << endl;
-
-    for (const auto& strateg: Sb)
-        cout << strateg.second << "/8" << "\t";
-    cout << endl;
-
+    printMap(Sb);
 
 }
 
@@ -213,8 +211,6 @@ int main() {
 	readMatrix(matrix, "temp");
 	printMatrix(matrix);
 
-	cout << findSedlDot(matrix) << endl;
-
     if (findSedlDot(matrix)){
         cout << "Матрица имеет седловую точку!\n";
         return -1;
@@ -223,7 +219,7 @@ int main() {
     cout << "Матрица не имеет седловой точки\n";
 
 
-    cout << "Решаем матрицу итеративным методом\n";
+    cout << "Находим решение игры итеративным методом\n";
     iteration_method(matrix);
 
 	return 0;

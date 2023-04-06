@@ -36,3 +36,4 @@ out
 .idea
 cmake-build-debug
 CMakeSettings.json
+build
